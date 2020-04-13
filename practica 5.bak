@@ -1,5 +1,4 @@
 #lang racket
-(require graphics/turtles)
 
 ;;;
 ;;;EJERCICIO 1
@@ -74,78 +73,6 @@
     ((null? lista1) #t)
     ((not (equal? (car lista1) (car lista2))) #f)
     (else (prefijo-lista? (cdr lista1) (cdr lista2)))))
-
-
-
-;;;TORTUGA
-
-;;5A
-
-(turtles #t)
-(define (koch nivel trazo)  
-  (if (= nivel 0)
-      (draw trazo)
-      (begin
-        (koch (- nivel 1) (/ trazo 3))
-        (turn 60)
-        (koch (- nivel 1) (/ trazo 3))
-        (turn -120)
-        (koch (- nivel 1) (/ trazo 3))
-        (turn 60)
-        (koch (- nivel 1) (/ trazo 3)))))
-
-
-(define (copo-nieve nivel trazo)
-  (if (> nivel 0)
-      (begin
-        (koch nivel trazo)
-        (turn -120)
-        (koch nivel trazo)
-        (turn -120)
-        (koch nivel trazo)
-        (turn -120))
-        (move 0)))
-
-
-(define (cuadrado trazo)
-  (begin
-    (draw trazo)
-    (turn 90)
-    (draw trazo)
-    (turn 90)
-    (draw trazo)
-    (turn 90)
-    (draw trazo)
-    (turn 90)))
-
-
-(define (alfombra-sierpinski tamaño)
-  (if (> tamaño 20)
-      (begin
-        (alfombra-sierpinski (/ tamaño 3))
-        (move (/ tamaño 3))
-        (alfombra-sierpinski (/ tamaño 3))
-        (move (/ tamaño 3))
-        (alfombra-sierpinski (/ tamaño 3))
-        (turn 90) (move (/ tamaño 3)) (turn -90)
-        (alfombra-sierpinski (/ tamaño 3))
-        (turn 90) (move (/ tamaño 3)) (turn -90)
-        (alfombra-sierpinski (/ tamaño 3))
-        (turn 180) (move (/ tamaño 3)) (turn -180)
-        (alfombra-sierpinski (/ tamaño 3))
-        (turn 180) (move (/ tamaño 3)) (turn -180)
-        (alfombra-sierpinski (/ tamaño 3))
-        (turn -90) (move (/ tamaño 3)) (turn 90)
-        (alfombra-sierpinski (/ tamaño 3))
-        (turn -90) (move (/ tamaño 3)) (turn 90))
-       (cuadrado tamaño) ) )
-        
-        
-
-
-
-
-
 
 
 
