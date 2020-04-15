@@ -238,5 +238,65 @@
       (nuevo-arbol 0 (comprueba-raices-bosque (hijos-arbol arbol)))))
 
 
-(comprueba-raices-arbol arbol3) ; ⇒ (1 (1) (1 (1) (1)) (1 (1)))
-(comprueba-raices-arbol '(20 (2) (8 (4) (5)) (9 (5)))) 
+;(comprueba-raices-arbol arbol3) ; ⇒ (1 (1) (1 (1) (1)) (1 (1)))
+;(comprueba-raices-arbol '(20 (2) (8 (4) (5)) (9 (5))))
+
+
+;;;::::::::::::
+;;;EJERCICIO 5:
+;;;::::::::::::
+
+
+(define (es-camino? lista arbol)
+ (and (equal? (dato-arbol arbol) (car lista))
+      (es-camino? (cdr lista) (hijos-arbol arbol))))
+
+(define (es-camino-bosque? lista bosque)
+  (if (and (null? lista) (null? bosque))
+      #t
+      (if (or (null? lista) (null? bosque))
+          #f
+          (or (es-camino? lista (car bosque))
+              (es-camino-bosque? lista (cdr bosque))))))
+
+(define (es-camino-fos? lista arbol)
+  (and (equal? (dato-arbol arbol) (car lista))
+       (or (and (null? lista) (null? arbol))
+       (exists? (lambda (elem) (es-camino-fos? (cdr lista) elem)) (hijos-arbol arbol)))))
+
+;;
+;;5B
+;;
+
+(define (nodos-nivel nivel arbol)
+  (if (= nivel 0)
+      (list (dato-arbol arbol))
+      (nodos-nivel-bosque (- nivel 1) (hijos-arbol arbol))))
+
+(define (nodos-nivel-bosque nivel bosque)
+  (if (null? bosque) '()
+      (append(nodos-nivel nivel (car bosque))
+             (nodos-nivel-bosque nivel (cdr bosque)))))
+
+
+;;;::::::::::::
+;;;EJERCICIO 6:
+;;;::::::::::::
+
+(define arbol6 '(9 (5 (3 (1 () ()) (4 () ())) (7 () ())) (15 (13 (10 () ()) (14 () ())) (20 () (23 () ())))))
+
+
+(define (camino-b-tree b-tree camino)
+  (cond
+    ((or (null? camino) (vacio-arbolb? b-tree)) '())
+    ((equal? (car camino) '>) (camino-b-tree (hijo-der-arbolb b-tree) (cdr camino)))
+    ((equal? (car camino) '<) (camino-b-tree (hijo-izq-arbolb b-tree) (cdr camino)))
+    (else (cons (dato-arbolb b-tree) (camino-b-tree b-tree (cdr camino))))))
+
+
+
+
+(camino-b-tree arbol6 '(= < < = > =)) 
+(camino-b-tree arbol6 '(> = < < =)) 
+
+
